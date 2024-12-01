@@ -31,6 +31,7 @@ import com.petproject.tech_blog.payload.response.SuccessResponse;
 import com.petproject.tech_blog.repository.RoleRepository;
 import com.petproject.tech_blog.repository.UserRepository;
 import com.petproject.tech_blog.security.jwt.JwtUtils;
+import com.petproject.tech_blog.service.RedisService;
 import com.petproject.tech_blog.service.UserDetailsImpl;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -51,6 +52,9 @@ public class AuthController {
 
   @Autowired
   JwtUtils jwtUtils;
+
+   @Autowired
+    private RedisService redisService;
 
   @PostMapping("/signin")
   public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
