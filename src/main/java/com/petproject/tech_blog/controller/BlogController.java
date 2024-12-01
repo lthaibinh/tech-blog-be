@@ -3,6 +3,7 @@ package com.petproject.tech_blog.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.petproject.tech_blog.entity.Blog;
+import com.petproject.tech_blog.payload.response.SuccessResponse;
 import com.petproject.tech_blog.service.BlogService;
 
 import java.util.List;
@@ -24,31 +25,32 @@ import org.springframework.web.bind.annotation.PutMapping;
 public class BlogController {
     @Autowired
     private BlogService blogService;
+
     @GetMapping
-    public List<Blog> getAllBlogs() {
-        return blogService.getAllBlogs();
+    public ResponseEntity<SuccessResponse<List<Blog>>> getAllBlogs() {
+        return SuccessResponse.of(blogService.getAllBlogs());
     }
 
     @GetMapping("/{id}")
-    public Blog getBlogById(@PathVariable String id) {
-        return blogService.getBlogById(Long.parseLong(id));
+    public ResponseEntity<SuccessResponse<Blog>> getBlogById(@PathVariable String id) {
+        return SuccessResponse.of(blogService.getBlogById(Long.parseLong(id)));
     }
 
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     @PostMapping
-    public Blog createBlog(@RequestBody Blog blog) {
-       return blogService.createBlog(blog);
+    public ResponseEntity<SuccessResponse<Blog>> createBlog(@RequestBody Blog blog) {
+        return SuccessResponse.of(blogService.createBlog(blog));
     }
 
     @PutMapping("/{id}")
-    public Blog updateBlog(@PathVariable String id, @RequestBody Blog entity) {
-        return blogService.updateBlog(Long.parseLong(id), entity);
+    public ResponseEntity<SuccessResponse<Blog>> updateBlog(@PathVariable String id, @RequestBody Blog entity) {
+        return SuccessResponse.of(blogService.updateBlog(Long.parseLong(id), entity));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBlog(@PathVariable String id) {
+    public ResponseEntity<SuccessResponse<Void>> deleteBlog(@PathVariable String id) {
         blogService.deleteBlog(Long.parseLong(id));
-        return ResponseEntity.noContent().build();
+        return SuccessResponse.of(null);
     }
 
 }

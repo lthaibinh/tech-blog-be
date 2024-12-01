@@ -21,6 +21,6 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
     logger.error("Unauthorized error: {}", authException.getMessage());
     response.setContentType("application/json");
     response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-    response.getWriter().println("{\"status\":\"Unauthorized error\",\"message\":\"Access denied\"}");
+    response.getWriter().println(String.format("{\"status\":\"%s\",\"message\":\"Access denied\"}", HttpServletResponse.SC_FORBIDDEN, null));
   }
 }
